@@ -291,7 +291,7 @@ async function execute(operation) {
     if (previewToken) {
         headers["X-Craft-Token"] = previewToken;
     }
-    const res = await p_retry_1.default(() => fetch(loadedPluginOptions.craftGqlUrl, Object.assign(Object.assign({}, loadedPluginOptions.fetchOptions), { method: "POST", body: JSON.stringify({ query, variables, operationName }), headers })), loadedPluginOptions.retryOptions);
+    const res = await (0, p_retry_1.default)(() => fetch(loadedPluginOptions.craftGqlUrl, Object.assign(Object.assign({}, loadedPluginOptions.fetchOptions), { method: "POST", body: JSON.stringify({ query, variables, operationName }), headers })), loadedPluginOptions.retryOptions);
     // Aaaand remove the token for subsequent requests
     previewToken = null;
     return await res.json();
@@ -354,7 +354,6 @@ async function initializePlugin(pluginOptions, gatsbyApi) {
     craftVersion = data.craftVersion;
     // Avoid deprecation errors
     if (craftVersion >= '3.7.0') {
-        console.log('Switch to canonical?');
         craftElementIdField = 'canonicalId';
     }
     reporter.info(`Craft v${craftVersion}, running Helper plugin v${gatsbyHelperVersion}`);
@@ -462,7 +461,7 @@ exports.createResolvers = async ({ createResolvers, intermediateSchema, actions,
                     type: `File`,
                     async resolve(source) {
                         if (source.url) {
-                            return await gatsby_source_filesystem_1.createRemoteFileNode({
+                            return await (0, gatsby_source_filesystem_1.createRemoteFileNode)({
                                 url: encodeURI(source.url),
                                 store,
                                 cache,
